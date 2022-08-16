@@ -37,6 +37,10 @@ function ThreeWordAnagramSolver() {
 
   const [loading, setLoading] = useState<any>(true);
   const [error, setError] = useState<any>(null);
+  const [theAnswer, setTheAnswer] = useState<any>(null);
+
+  let wordList: string[] = [];
+  // const wordList2: string[] = useRef([]);
 
   let url = data;
   console.log(url);
@@ -52,24 +56,35 @@ function ThreeWordAnagramSolver() {
     console.log('tempWordList', tempWordList);
 
     //STEP2 - fix  "saw or Saw" lines
+    for (let i = 0; i < tempWordList.length; i++) {
+      let word = tempWordList[i].toLowerCase();
+      let orString = ' or ';
 
-    // console.log(rawText);
+      let doesIncludeOrString = word.includes(orString);
+      if (doesIncludeOrString) {
+        let orIndex = tempWordList[i].indexOf(orString);
+        // console.log(orIndex)
+        console.log(tempWordList[i], ' or index = ', orIndex);
+        let changedWord = tempWordList[i].slice(0, orIndex);
+        tempWordList[i] = changedWord;
+        console.log(tempWordList[i], ' after');
+      }
 
-    //STEP3 - Lowercase everything
+      //STEP3 - Lowercase everything
+      tempWordList[i] = tempWordList[i].toLowerCase();
+    }
 
     return tempWordList;
   }
 
-  // let initialState = '';
-  let wordList = [];
   useEffect(() => {
     if (rawText) {
       console.log('rawText exists, about to splitUpData');
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       wordList = splitUpData(rawText);
 
-      // gameLogic();
+      gameLogic();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rawText]);
 
   useEffect(() => {
@@ -94,12 +109,14 @@ function ThreeWordAnagramSolver() {
       });
   }, [url]);
 
-  // let answer = 0;
   let answer1 = getAnswer();
-  // setAnswer(dur);
 
   function getAnswer() {
     return 42;
+  }
+
+  function gameLogic() {
+    setTheAnswer(45);
   }
 
   return (
@@ -110,7 +127,10 @@ function ThreeWordAnagramSolver() {
       </label>
       <input type="text" name="theInput" />
       <button>GO</button>
-      <span> Answer is {answer1}</span>
+      <span>
+        {' '}
+        Answer is {answer1} {theAnswer}
+      </span>
       <div>
         List of english words to check against were taken from first 10000 words
         of wiktionary with the{' '}
