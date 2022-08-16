@@ -111,6 +111,14 @@ function ThreeWordAnagramSolver() {
       <input type="text" name="theInput" />
       <button>GO</button>
       <span> Answer is {answer1}</span>
+      <div>
+        List of english words to check against were taken from first 10000 words
+        of wiktionary with the{' '}
+        <a href="https://creativecommons.org/licenses/by-sa/3.0/">
+          Creative Commons Attribution-ShareAlike License
+        </a>{' '}
+        That's 97% of the most frequent english words from TV and movie scripts
+      </div>
     </div>
   );
 }
