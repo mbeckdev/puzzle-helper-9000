@@ -43,7 +43,9 @@ function ThreeWordAnagramSolver() {
   const [theAnswer, setTheAnswer] = useState<any>(null);
   const [inputString, setInputString] = useState<string>('');
   const [wordList, setWordList] = useState<string[]>([]);
-  const testInput: string = 'qaqnqdq';
+  // const testInput: string = 'qaqnqdq';
+  const testInput: string = 'atwhnoxuildd';
+  // and this would x    atwhnoxuildd
 
   // let possibleAnswers: Answer[] = [];
   let possibleAnswers: string[] = [];
@@ -122,27 +124,37 @@ function ThreeWordAnagramSolver() {
     return 42;
   }
 
+  let wordsThatFit: string[] = [];
   function gameLogic() {
+    setInputString(testInput);
+    //changeme
     // console.log('game logic now ');
-    console.log('game logic now ', wordList);
+    console.log('*******************game logic now ', wordList);
+
+    console.log('*******************');
+    console.log('*******************');
+    console.log('*******************');
+    console.log('*******************');
 
     //look at one word from the list.
     //  does the word fit inside the inputString?  and in the correct order?
     //     if so add it to  a new array called
-
+    let tempLetterOrder: number[] = [];
     for (let i = 0; i < wordList.length; i++) {
       let wordFromList = wordList[i];
       //and       wordFromList
       //qaqnqdq   inputString
 
       let bln: boolean = inputString.includes(wordFromList);
+
       for (let j = 0; j < wordList[i].length; j++) {
-        let word = wordList[i];
-        let letter = word[j];
+        let word = wordList[i]; //and
+        let letter = word[j]; //a
         //a   n    d
         // a
 
-        //first time //a appears in inputString?
+        //first time //a appears in inputString? //qaqnqdq
+        // console.log('inputString = ', inputString);
         let firstPlaceLetterAppears = inputString.indexOf(letter);
         console.log(
           'word = ',
@@ -151,12 +163,72 @@ function ThreeWordAnagramSolver() {
           letter,
           'firstPlaceLetterAppears in ',
           inputString,
-          ' = ',
+          'at place = ',
           firstPlaceLetterAppears
         );
-        if (firstPlaceLetterAppears < 0) break; //letter isn't in the word
+        if (firstPlaceLetterAppears < 0) {
+          //letter isn't in the word
+          console.log('reseting tempLetterOrder to []');
+          tempLetterOrder = [];
+          break;
+        }
+
+        tempLetterOrder.push(firstPlaceLetterAppears);
+        console.log('tempLetterOrder = ', tempLetterOrder);
+        // if (j >= wordList[i].length - 1) {
+        if (j >= wordList[i].length - 1) {
+          console.log(
+            'j >= wordList[i].length - 1',
+            j >= wordList[i].length - 1,
+            ' j = ',
+            j,
+            'wordList[i].length -1',
+            wordList[i].length - 1
+          );
+          //last letter, which means the whole word fits, maybe in wrong order
+          console.log('were on the last letter yea?');
+          // check correct order
+          // 3,5,7 = good order,  5,2,7 = bad order
+          let lastNumber = 0;
+          for (let k = 0; k < tempLetterOrder.length; k++) {
+            let thisNumber = tempLetterOrder[k];
+            // console.log('thisNumber', thisNumber);
+            console.log(
+              'lastNumber = ',
+              lastNumber,
+              'thisNumber = ',
+              thisNumber
+            );
+            if (lastNumber < thisNumber) {
+              if (k >= tempLetterOrder.length - 1) {
+                if (k == 3) {
+                  debugger;
+                }
+                console.log('k=', k);
+                //at end of word and order is correct
+                console.log('at end of word and order is correct');
+                wordsThatFit.push(wordList[i]);
+                console.log('wordsThatFit is now', wordsThatFit);
+
+                console.log('reseting tempLetterOrder to []');
+                tempLetterOrder = [];
+                lastNumber = 0;
+                thisNumber = 0;
+              } else {
+                lastNumber = thisNumber;
+                console.log('lastNumber changed to', lastNumber);
+              }
+            } else {
+              break;
+            }
+          }
+          console.log('reseting tempLetterOrder to []');
+          tempLetterOrder = [];
+        }
       }
     }
+
+    console.log('AFTER wordsThatFit = ', wordsThatFit);
 
     // take all the wordsThatFit and look at them one by one
     // the inputString minus those letters of this word1 is the new inputStringSmallerx1
