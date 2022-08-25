@@ -9,7 +9,7 @@ function ThreeWordAnagramSolver() {
   // find the lines that say   saw or Saw and   delete everything after the or
   //lowercase everything
 
-  //name the new array of strings    wordList
+  // - done - name the new array of strings    wordList
 
   //get the input into a string called    inputString
 
@@ -62,7 +62,7 @@ function ThreeWordAnagramSolver() {
     //last one is empty - get rid of it
     tempWordList.pop();
     // console.log(tempWordList[tempWordList.length - 1]);
-    console.log('tempWordList', tempWordList);
+    // console.log('tempWordList', tempWordList);
 
     //STEP2 - fix  "saw or Saw" lines
     for (let i = 0; i < tempWordList.length; i++) {
@@ -73,16 +73,17 @@ function ThreeWordAnagramSolver() {
       if (doesIncludeOrString) {
         let orIndex = tempWordList[i].indexOf(orString);
         // console.log(orIndex)
-        console.log(tempWordList[i], ' or index = ', orIndex);
+        // console.log(tempWordList[i], ' or index = ', orIndex);
         let changedWord = tempWordList[i].slice(0, orIndex);
         tempWordList[i] = changedWord;
-        console.log(tempWordList[i], ' after');
+        // console.log(tempWordList[i], ' after');
       }
 
       //STEP3 - Lowercase everything
       tempWordList[i] = tempWordList[i].toLowerCase();
     }
 
+    console.log('all the words!!!!! = ', tempWordList);
     return tempWordList;
   }
 
@@ -125,6 +126,124 @@ function ThreeWordAnagramSolver() {
   }
 
   let wordsThatFit: string[] = [];
+
+  function getAllWordsThatFit() {
+    //look at one word from the list.
+    //  does the word fit inside the inputString?  and in the correct order?
+    //     if so add it to  a new array called
+
+    let tempLetterOrder: number[] = [];
+    // for one word from the big word list:
+    for (let i = 0; i < wordList.length; i++) {
+      let wordFromList = wordList[i];
+      //and       wordFromList
+      //qaqnqdq   inputString
+
+      let bln: boolean = inputString.includes(wordFromList);
+
+      // for each letter in one word from the big word list
+      let inputStringCutShort = inputString;
+      for (let j = 0; j < wordList[i].length; j++) {
+        let word = wordList[i]; //and
+        let letter = word[j]; //a
+        //a   n    d
+        // a
+
+        //first time //a appears in inputString? //qaqnqdq
+        // console.log('inputString = ', inputString);
+        let indexLetterAppears = inputStringCutShort.indexOf(letter);
+        console.log('inputString=', inputString);
+        console.log('inputStringCutShort=', inputStringCutShort);
+        console.log(
+          'word =',
+          word,
+          ', letter =',
+          letter,
+          ', indexLetterAppears in input',
+          inputStringCutShort,
+          'at place =',
+          indexLetterAppears
+        );
+        // debugger;
+        if (indexLetterAppears < 0) {
+          //letter isn't in the word
+          console.log('reseting tempLetterOrder to []');
+          tempLetterOrder = [];
+          break;
+        }
+
+        tempLetterOrder.push(indexLetterAppears);
+        // debugger;
+        //get new string starting at the index we found last - so we can check this smaller string for next letter
+        inputStringCutShort = inputStringCutShort.substring(
+          indexLetterAppears + 1,
+          inputStringCutShort.length
+        );
+        console.log('tempLetterOrder = ', tempLetterOrder);
+        // if (j >= wordList[i].length - 1) {
+
+        ///////////////////////////////////// go through all the indexes obtained to see if it's a legit order
+        // check if we're on the last letter of the word
+        if (j >= wordList[i].length - 1) {
+          // console.log(
+          //   'j >= wordList[i].length - 1',
+          //   j >= wordList[i].length - 1,
+          //   ' j = ',
+          //   j,
+          //   'wordList[i].length -1',
+          //   wordList[i].length - 1
+          // );
+          //last letter, which means the whole word fits, /////////////////////////maybe in wrong order
+          console.log('were on the last letter yea?');
+          //order should be correct if we're checking inputStringCutshort
+
+          wordsThatFit.push(wordList[i]);
+
+          // // check correct order
+          // // 3,5,7 = good order,  5,2,7 = bad order
+          // let lastNumber = 0;
+          // for (let k = 0; k < tempLetterOrder.length; k++) {
+          //   let thisNumber = tempLetterOrder[k];
+          //   // console.log('thisNumber', thisNumber);
+          //   console.log(
+          //     'lastNumber = ',
+          //     lastNumber,
+          //     'thisNumber = ',
+          //     thisNumber
+          //   );
+          //   if (lastNumber < thisNumber) {
+          //     if (k >= tempLetterOrder.length - 1) {
+          //       if (k == 3) {
+          //         debugger;
+          //       }
+          //       console.log('k=', k);
+          //       //at end of word and order is correct
+          //       console.log('at end of word and order is correct');
+          //       wordsThatFit.push(wordList[i]);
+          //       console.log('wordsThatFit is now', wordsThatFit);
+
+          //       console.log('reseting tempLetterOrder to []');
+          //       tempLetterOrder = [];
+          //       lastNumber = 0;
+          //       thisNumber = 0;
+          //     } else {
+          //       lastNumber = thisNumber;
+          //       console.log('lastNumber changed to', lastNumber);
+          //     }
+          //   } else {
+          //     break;
+          //   }
+          // }
+          console.log('reseting tempLetterOrder to []');
+          tempLetterOrder = [];
+        }
+      }
+    }
+  }
+
+  /// *******************************************************
+  /// *******************************************************
+  /// *******************************************************
   function gameLogic() {
     setInputString(testInput);
     //changeme
@@ -136,97 +255,8 @@ function ThreeWordAnagramSolver() {
     console.log('*******************');
     console.log('*******************');
 
-    //look at one word from the list.
-    //  does the word fit inside the inputString?  and in the correct order?
-    //     if so add it to  a new array called
-    let tempLetterOrder: number[] = [];
-    for (let i = 0; i < wordList.length; i++) {
-      let wordFromList = wordList[i];
-      //and       wordFromList
-      //qaqnqdq   inputString
-
-      let bln: boolean = inputString.includes(wordFromList);
-
-      for (let j = 0; j < wordList[i].length; j++) {
-        let word = wordList[i]; //and
-        let letter = word[j]; //a
-        //a   n    d
-        // a
-
-        //first time //a appears in inputString? //qaqnqdq
-        // console.log('inputString = ', inputString);
-        let firstPlaceLetterAppears = inputString.indexOf(letter);
-        console.log(
-          'word = ',
-          word,
-          ' letter = ',
-          letter,
-          'firstPlaceLetterAppears in ',
-          inputString,
-          'at place = ',
-          firstPlaceLetterAppears
-        );
-        if (firstPlaceLetterAppears < 0) {
-          //letter isn't in the word
-          console.log('reseting tempLetterOrder to []');
-          tempLetterOrder = [];
-          break;
-        }
-
-        tempLetterOrder.push(firstPlaceLetterAppears);
-        console.log('tempLetterOrder = ', tempLetterOrder);
-        // if (j >= wordList[i].length - 1) {
-        if (j >= wordList[i].length - 1) {
-          console.log(
-            'j >= wordList[i].length - 1',
-            j >= wordList[i].length - 1,
-            ' j = ',
-            j,
-            'wordList[i].length -1',
-            wordList[i].length - 1
-          );
-          //last letter, which means the whole word fits, maybe in wrong order
-          console.log('were on the last letter yea?');
-          // check correct order
-          // 3,5,7 = good order,  5,2,7 = bad order
-          let lastNumber = 0;
-          for (let k = 0; k < tempLetterOrder.length; k++) {
-            let thisNumber = tempLetterOrder[k];
-            // console.log('thisNumber', thisNumber);
-            console.log(
-              'lastNumber = ',
-              lastNumber,
-              'thisNumber = ',
-              thisNumber
-            );
-            if (lastNumber < thisNumber) {
-              if (k >= tempLetterOrder.length - 1) {
-                if (k == 3) {
-                  debugger;
-                }
-                console.log('k=', k);
-                //at end of word and order is correct
-                console.log('at end of word and order is correct');
-                wordsThatFit.push(wordList[i]);
-                console.log('wordsThatFit is now', wordsThatFit);
-
-                console.log('reseting tempLetterOrder to []');
-                tempLetterOrder = [];
-                lastNumber = 0;
-                thisNumber = 0;
-              } else {
-                lastNumber = thisNumber;
-                console.log('lastNumber changed to', lastNumber);
-              }
-            } else {
-              break;
-            }
-          }
-          console.log('reseting tempLetterOrder to []');
-          tempLetterOrder = [];
-        }
-      }
-    }
+    //Find all words that fit
+    getAllWordsThatFit(); //sets wordsThatFit. - an array of strings
 
     console.log('AFTER wordsThatFit = ', wordsThatFit);
 
@@ -255,13 +285,16 @@ function ThreeWordAnagramSolver() {
     console.log('possibleAnswers = ', possibleAnswers);
     setTheAnswer(possibleAnswers);
   }
+  /// *******************************************************
+  /// *******************************************************
+  /// *******************************************************
 
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setInputString(testInput);
     console.log('inputString = ', inputString);
     // setInputString(e.target.value);
-    // changemeback
+    // changemeback!
   }
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
