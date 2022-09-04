@@ -1,8 +1,9 @@
+import { link } from 'fs';
 import React, { useState, useEffect } from 'react';
 //real data
-// import data from '../../assets/tenThousandWords.txt';
+import data from '../../assets/tenThousandWords.txt';
 //test data
-import data from '../../assets/tenThousandWordsJust20.txt';
+// import data from '../../assets/tenThousandWordsJust20.txt';
 
 function ThreeWordAnagramSolver() {
   //turn raw .txt file into one long array of words 10000 long   named rawText
@@ -44,7 +45,9 @@ function ThreeWordAnagramSolver() {
   const [inputString, setInputString] = useState<string>('');
   const [wordList, setWordList] = useState<string[]>([]);
   // const testInput: string = 'qaqnqdq';
-  const testInput: string = 'atwhnoxuildd';
+  // const testInput: string = 'atwhnoxuildd';
+  const testInput: string = 'papsfrutesutternet';
+
   // and this would x    atwhnoxuildd
 
   // let possibleAnswers: Answer[] = [];
@@ -83,7 +86,7 @@ function ThreeWordAnagramSolver() {
       tempWordList[i] = tempWordList[i].toLowerCase();
     }
 
-    console.log('all the words!!!!! = ', tempWordList);
+    // console.log('all the words!!!!! = ', tempWordList);
     return tempWordList;
   }
 
@@ -152,22 +155,22 @@ function ThreeWordAnagramSolver() {
         //first time //a appears in inputString? //qaqnqdq
         // console.log('inputString = ', inputString);
         let indexLetterAppears = inputStringCutShort.indexOf(letter);
-        console.log('inputString=', inputString);
-        console.log('inputStringCutShort=', inputStringCutShort);
-        console.log(
-          'word =',
-          word,
-          ', letter =',
-          letter,
-          ', indexLetterAppears in input',
-          inputStringCutShort,
-          'at place =',
-          indexLetterAppears
-        );
+        // console.log('inputString=', inputString);
+        // console.log('inputStringCutShort=', inputStringCutShort);
+        // console.log(
+        //   'word =',
+        //   word,
+        //   ', letter =',
+        //   letter,
+        //   ', indexLetterAppears in input',
+        //   inputStringCutShort,
+        //   'at place =',
+        //   indexLetterAppears
+        // );
         // debugger;
         if (indexLetterAppears < 0) {
           //letter isn't in the word
-          console.log('reseting tempLetterOrder to []');
+          // console.log('reseting tempLetterOrder to []');
           tempLetterOrder = [];
           break;
         }
@@ -179,7 +182,7 @@ function ThreeWordAnagramSolver() {
           indexLetterAppears + 1,
           inputStringCutShort.length
         );
-        console.log('tempLetterOrder = ', tempLetterOrder);
+        // console.log('tempLetterOrder = ', tempLetterOrder);
         // if (j >= wordList[i].length - 1) {
 
         ///////////////////////////////////// go through all the indexes obtained to see if it's a legit order
@@ -194,7 +197,7 @@ function ThreeWordAnagramSolver() {
           //   wordList[i].length - 1
           // );
           //last letter, which means the whole word fits, /////////////////////////maybe in wrong order
-          console.log('were on the last letter yea?');
+          // console.log('were on the last letter yea?');
           //order should be correct if we're checking inputStringCutshort
 
           wordsThatFit.push(wordList[i]);
@@ -234,7 +237,7 @@ function ThreeWordAnagramSolver() {
           //     break;
           //   }
           // }
-          console.log('reseting tempLetterOrder to []');
+          // console.log('reseting tempLetterOrder to []');
           tempLetterOrder = [];
         }
       }
@@ -292,8 +295,8 @@ function ThreeWordAnagramSolver() {
   function handleInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     setInputString(testInput);
-    console.log('inputString = ', inputString);
-    // setInputString(e.target.value);
+    // console.log('inputString = ', inputString);
+    setInputString(e.target.value);
     // changemeback!
   }
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -306,6 +309,15 @@ function ThreeWordAnagramSolver() {
     console.log('inputString = ', inputString);
   }, [inputString]);
 
+  let thing = wordsThatFit.map((word) => <li>{word}</li>);
+
+  const [listofthings, setlistofthings] = useState<any>(null);
+  useEffect(() => {
+    thing = wordsThatFit.map((word) => <li>{word}</li>);
+  }, [listofthings]);
+
+  const numbers = [1, 2, 3, 4, 5];
+  const listItems = numbers.map((number) => <li>{number}</li>);
   return (
     <div>
       <h2>ThreeWordAnagramSolver</h2>
@@ -332,6 +344,11 @@ function ThreeWordAnagramSolver() {
           </a>{' '}
           That's 97% of the most frequent english words from TV and movie
           scripts
+        </div>
+        <div>
+          <h3>Words that fit</h3>
+          <ul>{thing}</ul>
+          <ul>{listItems}</ul>
         </div>
       </form>
     </div>

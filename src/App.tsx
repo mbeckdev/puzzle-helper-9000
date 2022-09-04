@@ -51,7 +51,7 @@ function App() {
             React Redux
           </a>
         </span>
-        <ThreeWordAnagramSolver />
+        {/* <ThreeWordAnagramSolver /> */}
       </header>
       <main>asdfasfd</main>
     </div>
